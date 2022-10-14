@@ -1,0 +1,26 @@
+{
+    "Options": {
+        "DeleteWhitelist": [],
+        "FilePath": "/mnt/disk/share/runelite",
+        "FileURLPrefix": "https://i.ivr.fi/runelite"
+    },
+    "Default": {
+        "Channel": "pajlada",
+        "DinkEmote": "pajaDink",
+        "DeathEmote": "pajaSad"
+    },
+    "NameMap": {
+        "twitch_name": [""]
+    },
+    "UserConfig": {
+        "twitch_name": {
+            "Channels": [""]
+        }
+    },
+    "ChannelConfig": {
+        "twitch_name": {
+            "DinkEmote": "",
+            "DeathEmote": ""
+        }
+    }
+}
