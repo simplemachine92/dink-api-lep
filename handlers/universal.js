@@ -22,7 +22,7 @@ module.exports = async (request, reply) => {
     const { content } = JSON.parse(payload_json.value);
     const image = file ? await utils.fileToBase64(file) : null;
 
-    const simpleRegex = /has levelled|their collection|being followed|has died|slayer task|completed a quest|personal best in a speedrun/;
+    const simpleRegex = /has levelled|their collection|being followed|has died|slayer task|completed a quest|personal best in a speedrun|has defeated/;
 
     if (simpleRegex.test(content)) {
         const splitMessage = content.split(' ');
