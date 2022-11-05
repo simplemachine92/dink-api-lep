@@ -1,5 +1,7 @@
 const utils = require('../utils/utils.js');
 
+const config = require('../config.json');
+
 module.exports = async (request, reply) => {
     if (!request.headers['user-agent'].startsWith('RuneLite/')) {
         return reply.status(403).send('Invalid useragent');
@@ -19,7 +21,10 @@ module.exports = async (request, reply) => {
 
     const twitchUser = request.query.twitch_username ?? null;
 
-    const { content } = JSON.parse(payload_json.value);
+    const parsedPayload = JSON.parse(payload_json.value);
+
+    const { content } = parsedPayload;
+
     const image = file ? await utils.fileToBase64(file) : null;
 
     const simpleRegex = /has levelled|their collection|being followed|has died|slayer task|completed a quest|personal best in a speedrun|has defeated/;
@@ -42,6 +47,29 @@ module.exports = async (request, reply) => {
         
         const runescapeUser = clueMessage.shift();
         await utils.handleUniversalMessage(runescapeUser, twitchUser, clueMessage.join(' '), image);
+    }
+
+    if (parsedPayload.type) {
+        const { type, extra, playerName } = parsedPayload;
+
+        switch (type) {
+        case 'LOOT': {
+            const lootItems = [];
+            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+
+            if (filteredLoot.length === 0) {
+                request.log.info('No loot items after filtering');
+                break;
+            }
+
+            for (const item of filteredLoot) {
+                lootItems.push(`${item.quantity}x ${item.name} (${item.priceEach}gp)`);
+            }
+
+            const message = `has looted: ${lootItems.join(', ')}`;
+            await utils.handleUniversalMessage(playerName, twitchUser, message, image);
+        }
+        }
     }
 
     return reply.send('OK');

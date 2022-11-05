@@ -4,6 +4,9 @@
         "FilePath": "/mnt/disk/share/runelite",
         "FileURLPrefix": "https://i.ivr.fi/runelite"
     },
+    "DinkConfig": {
+        "LootMinValue": 100000
+    },
     "Default": {
         "Channel": "pajlada",
         "DinkEmote": "pajaDink",
