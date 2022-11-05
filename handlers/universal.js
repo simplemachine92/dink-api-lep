@@ -63,7 +63,7 @@ module.exports = async (request, reply) => {
             }
 
             for (const item of filteredLoot) {
-                lootItems.push(`${item.quantity}x ${item.name} (${item.priceEach}gp)`);
+                lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach)})`);
             }
 
             const message = `has looted: ${lootItems.join(', ')}`;

@@ -71,6 +71,16 @@ module.exports.fileToBase64 = async (file) => {
     return imageBuffer.toString('base64');
 };
 
+module.exports.formatCurrency = (value) => {
+    if (value >= 1e6) {
+        return `${Math.floor(value / 1e4) / 100}M`;
+    } else if (value >= 1e5) {
+        return `${Math.floor(value / 1e3)}k`;
+    } else {
+        return `${value}gp`;
+    }
+};
+
 module.exports.handleMessage = async (type, runescapeUser, twitchUser, extraData, imageData) => {
     const imageURL = await writeImage(imageData);
     
