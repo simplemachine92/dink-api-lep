@@ -50,7 +50,7 @@ module.exports = async (request, reply) => {
     }
 
     if (parsedPayload.type) {
-        const { type, extra, playerName } = parsedPayload;
+        const { content, type, extra, playerName } = parsedPayload;
 
         switch (type) {
         case 'LOOT': {
@@ -68,7 +68,14 @@ module.exports = async (request, reply) => {
 
             const message = `has looted: ${lootItems.join(', ')}`;
             await utils.handleUniversalMessage(playerName, twitchUser, message, image);
+            break;
         }
+        case 'ACHIEVEMENT_DIARY':
+            await utils.handleUniversalMessage(playerName, twitchUser, content, image);
+            break;
+        case 'COMBAT_ACHIEVEMENT':
+            await utils.handleUniversalMessage(playerName, twitchUser, content, image);
+            break;
         }
     }
 
