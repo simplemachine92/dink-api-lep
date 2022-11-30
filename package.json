@@ -4,21 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
     "@fastify/multipart": "^7.3.0",
-    "fastify": "^4.9.2",
+    "fastify": "^4.10.2",
     "ioredis": "^5.2.4",
     "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
-    "eslint": "^8.26.0",
-    "eslint-plugin-unicorn": "^44.0.2",
+    "eslint": "^8.28.0",
+    "eslint-plugin-unicorn": "^45.0.1",
     "nodemon": "^2.0.20",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   }
 }
