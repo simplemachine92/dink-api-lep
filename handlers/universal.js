@@ -42,13 +42,6 @@ module.exports = async (request, reply) => {
         }
     }
 
-    if (content.includes('clue')) {
-        const clueMessage = content.split('\n')[0].split(' ');
-        
-        const runescapeUser = clueMessage.shift();
-        await utils.handleUniversalMessage(runescapeUser, twitchUser, clueMessage.join(' '), image);
-    }
-
     if (parsedPayload.type) {
         const { content, type, extra, playerName } = parsedPayload;
 
@@ -67,6 +60,11 @@ module.exports = async (request, reply) => {
             }
 
             const message = `has looted: ${lootItems.join(', ')}`;
+            await utils.handleUniversalMessage(playerName, twitchUser, message, image);
+            break;
+        }
+        case 'CLUE': {
+            const message = `has completed a ${extra.clueType} clue, making that ${extra.numberCompleted} in total!`;
             await utils.handleUniversalMessage(playerName, twitchUser, message, image);
             break;
         }
