@@ -27,7 +27,7 @@ module.exports = async (request, reply) => {
 
     const image = file ? await utils.fileToBase64(file) : null;
 
-    const simpleRegex = /has levelled|their collection|being followed|has died|slayer task|completed a quest|personal best in a speedrun|has defeated/;
+    const simpleRegex = /has levelled|their collection|being followed|slayer task|completed a quest|personal best in a speedrun|has defeated/;
 
     if (simpleRegex.test(content)) {
         const splitMessage = content.split(' ');
@@ -35,11 +35,7 @@ module.exports = async (request, reply) => {
     
         const message = `${splitMessage.join(' ')}!`;
 
-        if (content.includes('has died')) {
-            await utils.handleUniversalMessage(runescapeUser, twitchUser, message, image, true);
-        } else {
-            await utils.handleUniversalMessage(runescapeUser, twitchUser, message, image);
-        }
+        await utils.handleUniversalMessage(runescapeUser, twitchUser, message, image);
     }
 
     if (parsedPayload.type) {
@@ -68,9 +64,17 @@ module.exports = async (request, reply) => {
             await utils.handleUniversalMessage(playerName, twitchUser, message, image);
             break;
         }
-        case 'ACHIEVEMENT_DIARY':
-            await utils.handleUniversalMessage(playerName, twitchUser, content, image);
+        case 'DEATH': {
+            let message;
+            if (extra.isPvp === true) {
+                message = 'has died!';
+            } else {
+                message = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
+            }
+            await utils.handleUniversalMessage(playerName, twitchUser, message, image, true);
             break;
+        }
+        case 'ACHIEVEMENT_DIARY':
         case 'COMBAT_ACHIEVEMENT':
             await utils.handleUniversalMessage(playerName, twitchUser, content, image);
             break;
