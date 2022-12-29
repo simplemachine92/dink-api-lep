@@ -67,9 +67,9 @@ module.exports = async (request, reply) => {
         case 'DEATH': {
             let message;
             if (extra.isPvp === true) {
-                message = 'has died!';
-            } else {
                 message = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
+            } else {
+                message = 'has died!';
             }
             await utils.handleUniversalMessage(playerName, twitchUser, message, image, true);
             break;
