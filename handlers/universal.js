@@ -76,7 +76,8 @@ module.exports = async (request, reply) => {
         }
         case 'ACHIEVEMENT_DIARY':
         case 'COMBAT_ACHIEVEMENT':
-            await utils.handleUniversalMessage(playerName, twitchUser, content, image);
+            const message = `${content.split(' ').slice(1).join(' ')}!`
+            await utils.handleUniversalMessage(playerName, twitchUser, message, image);
             break;
         }
     }
