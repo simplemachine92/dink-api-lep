@@ -27,7 +27,7 @@ module.exports = async (request, reply) => {
 
     const image = file ? await utils.fileToBase64(file) : null;
 
-    const simpleRegex = /has levelled|their collection|being followed|slayer task|completed a quest|personal best in a speedrun|has defeated/;
+    const simpleRegex = /has levelled|being followed|slayer task|completed a quest|personal best in a speedrun|has defeated/;
 
     if (simpleRegex.test(content)) {
         const splitMessage = content.split(' ');
@@ -64,6 +64,11 @@ module.exports = async (request, reply) => {
             await utils.handleUniversalMessage(playerName, twitchUser, message, image);
             break;
         }
+        case 'COLLECTION': {
+            const message = `has added ${extra.itemName} to their collection!`;
+            await utils.handleUniversalMessage(playerName, twitchUser, message, image);
+            break;
+        }
         case 'DEATH': {
             let message;
             if (extra.isPvp === true) {
@@ -75,10 +80,11 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'ACHIEVEMENT_DIARY':
-        case 'COMBAT_ACHIEVEMENT':
-            const message = `${content.split(' ').slice(1).join(' ')}!`
+        case 'COMBAT_ACHIEVEMENT': {
+            const message = `${content.split(' ').slice(1).join(' ')}!`;
             await utils.handleUniversalMessage(playerName, twitchUser, message, image);
             break;
+        }
         }
     }
 
