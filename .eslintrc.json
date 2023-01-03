@@ -16,7 +16,9 @@
         "dot-notation": "warn",
         "eol-last": ["warn", "always"],
         "eqeqeq": "error",
-        "indent": ["warn", 4],
+        "indent": ["warn", 4, {
+            "SwitchCase": 1
+        }],
         "key-spacing": ["warn", {
             "afterColon": true,
             "beforeColon": false,
