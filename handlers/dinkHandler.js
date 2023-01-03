@@ -80,7 +80,7 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'LEVEL': {
-            const formattedLevelList = Object.entries(extra.leveledUpSkills)
+            const formattedLevelList = Object.entries(extra.levelledSkills)
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
                 .replace(/,([^,]+$)/, ', and');
