@@ -41,19 +41,23 @@ fastify.register(require('@fastify/multipart'), {
 });
 
 fastify.post('/', {
-    handler: require('./handlers/runelite.js')
+    handler: require('./handlers/dinkHandler.js')
 });
 
 fastify.post('/runelite', {
-    handler: require('./handlers/runelite.js')
+    handler: require('./handlers/dinkHandler.js')
 });
 
 fastify.post('/webhook', {
-    handler: require('./handlers/runelite.js')
+    handler: require('./handlers/dinkHandler.js')
 });
 
 fastify.post('/universal', {
-    handler: require('./handlers/universal.js')
+    handler: require('./handlers/dinkHandler.js')
+});
+
+fastify.post('/dink', {
+    handler: require('./handlers/dinkHandler.js')
 });
 
 fastify.get('/delete', {

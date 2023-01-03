@@ -71,6 +71,11 @@ module.exports.fileToBase64 = async (file) => {
     return imageBuffer.toString('base64');
 };
 
+module.exports.formatStringCase = (string) => {
+    const str = string.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 module.exports.formatCurrency = (value) => {
     if (value >= 1e6) {
         return `${Math.floor(value / 1e4) / 100}M`;
@@ -81,50 +86,7 @@ module.exports.formatCurrency = (value) => {
     }
 };
 
-module.exports.handleMessage = async (type, runescapeUser, twitchUser, extraData, imageData) => {
-    const imageURL = await writeImage(imageData);
-    
-    const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
-    const identicalNames = Boolean(runescapeUser?.toLowerCase() === twitchUser?.toLowerCase());
-    
-    const { Channel, DinkEmote, DeathEmote } = config.Default;
-
-    const buildMessage = (message) => {
-        if (validTwitchUser === true) {
-            return `${runescapeUser} ( @${twitchUser} ) ${message} ${imageURL ?? ''}`;
-        } else {
-            return `${runescapeUser} ${message} ${imageURL ?? ''}`;
-        }
-    };
-
-    let message;
-
-    switch (type) {
-    case 'levelup':
-        message = buildMessage(`Has levelled up ${extraData}!`);
-        break;
-    case 'quest':
-        message = buildMessage(`Just completed ${extraData}!`);
-        break;
-    case 'death':
-        message = buildMessage('Died!');
-        break;
-    case 'clue':
-        message = buildMessage('Completed a Clue!');
-        break;
-    case 'pet':
-        message = buildMessage('Received a Pet!');
-        break;
-    }
-
-    sendTwitchMessage(Channel, `${type === 'death' ? DeathEmote : DinkEmote} ${message}`);
-
-    if (validTwitchUser === true || identicalNames === true) {
-        sendExtraChannels(twitchUser, message, type);
-    }
-};
-
-module.exports.handleUniversalMessage = async (runescapeUser, twitchUser, message, imageData, isDeath = false) => {
+module.exports.handleDinkMessage = async (runescapeUser, twitchUser, message, imageData, isDeath = false) => {
     const imageURL = await writeImage(imageData);
 
     const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
