@@ -2501,6 +2501,7 @@ __metadata:
     ioredis: ^5.2.4
     nodemon: ^2.0.20
     pino-pretty: ^9.1.1
+    tinyduration: ^3.2.4
     typescript: ^4.9.4
   languageName: unknown
   linkType: soft
@@ -2838,6 +2839,13 @@ __metadata:
   version: 10.0.1
   resolution: "tiny-lru@npm:10.0.1"
   checksum: 58b5f17a357625335aa3b90ee8c9b3e9abede5c1f46066c73deb129574a205efb112807d6d473909e73f1d874ea99bf14eb5c88223d540eb32ebb5e1ff146689
+  languageName: node
+  linkType: hard
+
+"tinyduration@npm:^3.2.4":
+  version: 3.2.4
+  resolution: "tinyduration@npm:3.2.4"
+  checksum: 78d58f15a2d74109161a988959f3d7cac9436795430fa5ec7a563e6d467b55b14e175d48c9ef7e228235a44678175522711a5c6e561449b38e1c9bc8b1420463
   languageName: node
   linkType: hard
 

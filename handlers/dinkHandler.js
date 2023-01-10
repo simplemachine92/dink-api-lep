@@ -58,7 +58,10 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'KILL_COUNT': {
-            const message = `has defeated ${extra.boss} with a total completion count of ${extra.count}!`;
+            const message = extra.isPersonalBest === true
+                ? `has defeated ${extra.boss} with a new personal best time of ${utils.parseDuration(extra.time)} and total completion count of ${extra.count}!`
+                : `has defeated ${extra.boss} with a total completion count of ${extra.count}!`;
+            
             await utils.handleDinkMessage(playerName, twitchUser, message, image);
             break;
         }

@@ -13,7 +13,8 @@
     "@fastify/multipart": "^7.3.0",
     "fastify": "^4.11.0",
     "ioredis": "^5.2.4",
-    "pino-pretty": "^9.1.1"
+    "pino-pretty": "^9.1.1",
+    "tinyduration": "^3.2.4"
   },
   "devDependencies": {
     "eslint": "^8.31.0",

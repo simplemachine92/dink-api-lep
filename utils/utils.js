@@ -1,6 +1,7 @@
 const Redis = require('ioredis');
 const Crypto = require('crypto');
 const fsp = require('fs/promises');
+const tinyDuration = require('tinyduration');
 
 const config = require('../config.json');
 
@@ -74,6 +75,15 @@ module.exports.fileToBase64 = async (file) => {
 module.exports.formatStringCase = (string) => {
     const str = string.toLowerCase();
     return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+module.exports.parseDuration = (duration) => {
+    const parsedDuration = tinyDuration.parse(duration);
+    const formattedDuration = Object.entries(parsedDuration)
+        .map(i => `${i[1]}${i[0][0]}`)
+        .join(', ');
+
+    return formattedDuration;
 };
 
 module.exports.formatCurrency = (value) => {
