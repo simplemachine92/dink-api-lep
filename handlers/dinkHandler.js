@@ -86,7 +86,7 @@ module.exports = async (request, reply) => {
             const formattedLevelList = Object.entries(extra.levelledSkills)
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
-                .replace(/,([^,]+$)/, ', and');
+                .replace(/,([^,]+$)/, ', and$1');
             const message = `has levelled up ${formattedLevelList}!`;
             await utils.handleDinkMessage(playerName, twitchUser, message, image);
             break;
