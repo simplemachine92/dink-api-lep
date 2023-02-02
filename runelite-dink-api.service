@@ -1,0 +1,16 @@
+[Unit]
+Description=Runelite Dink API
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node index.js
+WorkingDirectory=<path-to-app-directory>
+TimeoutStopSec=5
+Restart=always
+
+Environment=NODE_ENV=production
+Environment=NODE_OPTIONS="--require ./.pnp.cjs"
+
+[Install]
+WantedBy=default.target
