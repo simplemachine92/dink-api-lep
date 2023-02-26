@@ -91,6 +91,20 @@ module.exports = async (request, reply) => {
             await utils.handleDinkMessage(playerName, twitchUser, message, image);
             break;
         }
+        case 'BARBARIAN_ASSAULT_GAMBLE': {
+            const lootItems = [];
+            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+
+            if (filteredLoot.length === 0) {
+                for (const item of filteredLoot) {
+                    lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
+                }
+            }
+
+            const message = `has reached ${extra.gambleCount} Barbarian Assault high gambles! ${lootItems.length !== 0 ? lootItems.join(', ') : ''}`;
+            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            break;
+        }
         case 'LOOT': {
             const lootItems = [];
             const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
