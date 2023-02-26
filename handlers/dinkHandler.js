@@ -31,55 +31,47 @@ module.exports = async (request, reply) => {
 
     const { type, extra, playerName } = parsedPayload;
 
+    let dinkMessage = null;
+    
     switch (type) {
         case 'QUEST': {
-            const message = `has completed a quest: ${extra.questName}!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has completed a quest: ${extra.questName}!`;
             break;
         }
         case 'CLUE': {
-            const message = `has completed a ${extra.clueType} clue, making that ${extra.numberCompleted} in total!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has completed a ${extra.clueType} clue, making that ${extra.numberCompleted} in total!`;
             break;
         }
         case 'COLLECTION': {
-            const message = `has added ${extra.itemName} to their collection!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has added ${extra.itemName} to their collection!`;
             break;
         }
         case 'PET': {
-            const message = 'has obtained a pet!';
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = 'has obtained a pet!';
             break;
         }
         case 'SPEEDRUN': {
-            const message = 'has made a new personal best!';
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = 'has made a new personal best!';
             break;
         }
         case 'KILL_COUNT': {
-            const message = extra.isPersonalBest === true
+            dinkMessage = extra.isPersonalBest === true
                 ? `has defeated ${extra.boss} with a new personal best time of ${utils.parseDuration(extra.time)} and total completion count of ${extra.count}!`
                 : `has defeated ${extra.boss} with a total completion count of ${extra.count}!`;
-            
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
             break;
         }
         case 'ACHIEVEMENT_DIARY': {
             const diaryDifficulty = utils.formatStringCase(extra.difficulty);
-            const message = `has completed the ${diaryDifficulty} ${extra.area} Achievement Diary, for a total of ${extra.total} diaries completed!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has completed the ${diaryDifficulty} ${extra.area} Achievement Diary, for a total of ${extra.total} diaries completed!`;
             break;
         }
         case 'COMBAT_ACHIEVEMENT': {
             const achievementTier = utils.formatStringCase(extra.tier);
-            const message = `has completed the ${achievementTier} combat task: ${extra.task}!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task}!`;
             break;
         }
         case 'SLAYER': {
-            const message = `has completed a slayer task: ${extra.slayerTask}, getting ${extra.slayerPoints} points and making that ${extra.slayerCompleted} tasks completed!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has completed a slayer task: ${extra.slayerTask}, getting ${extra.slayerPoints} points and making that ${extra.slayerCompleted} tasks completed!`;
             break;
         }
         case 'LEVEL': {
@@ -87,8 +79,7 @@ module.exports = async (request, reply) => {
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
                 .replace(/,([^,]+$)/, ', and$1');
-            const message = `has levelled up ${formattedLevelList}!`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has levelled up ${formattedLevelList}!`;
             break;
         }
         case 'BARBARIAN_ASSAULT_GAMBLE': {
@@ -101,8 +92,7 @@ module.exports = async (request, reply) => {
                 }
             }
 
-            const message = `has reached ${extra.gambleCount} Barbarian Assault high gambles! ${lootItems.length !== 0 ? lootItems.join(', ') : ''}`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has reached ${extra.gambleCount} Barbarian Assault high gambles! ${lootItems.length !== 0 ? lootItems.join(', ') : ''}`;
             break;
         }
         case 'LOOT': {
@@ -117,20 +107,24 @@ module.exports = async (request, reply) => {
                 lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
             }
 
-            const message = `has looted: ${lootItems.join(', ')}`;
-            await utils.handleDinkMessage(playerName, twitchUser, message, image);
+            dinkMessage = `has looted: ${lootItems.join(', ')}`;
             break;
         }
         case 'DEATH': {
-            let message;
             if (extra.isPvp === true) {
-                message = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
+                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
             } else {
-                message = 'has died!';
+                dinkMessage = 'has died!';
             }
-            await utils.handleDinkMessage(playerName, twitchUser, message, image, true);
             break;
         }
+        default: {
+            request.log.info(`Unhandled Dink type: ${type}`);
+        }
+    }
+
+    if (dinkMessage !== null) {
+        await utils.handleDinkMessage(playerName, twitchUser, dinkMessage, image, (type === 'DEATH'));
     }
 
     return reply.send('OK');
