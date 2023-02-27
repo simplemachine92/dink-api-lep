@@ -86,7 +86,7 @@ module.exports = async (request, reply) => {
             const lootItems = [];
             const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
 
-            if (filteredLoot.length === 0) {
+            if (filteredLoot.length !== 0) {
                 for (const item of filteredLoot) {
                     lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
                 }
