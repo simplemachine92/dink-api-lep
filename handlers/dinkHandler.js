@@ -97,7 +97,7 @@ module.exports = async (request, reply) => {
         }
         case 'LOOT': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
 
             if (filteredLoot.length === 0) {
                 break;
