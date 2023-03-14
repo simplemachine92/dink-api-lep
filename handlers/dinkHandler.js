@@ -84,7 +84,7 @@ module.exports = async (request, reply) => {
         }
         case 'BARBARIAN_ASSAULT_GAMBLE': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
 
             if (filteredLoot.length !== 0) {
                 for (const item of filteredLoot) {
