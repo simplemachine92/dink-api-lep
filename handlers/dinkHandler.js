@@ -75,7 +75,11 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'LEVEL': {
-            const formattedLevelList = Object.entries(extra.levelledSkills)
+            const levelled = extra.levelledSkills;
+            if (extra.combatLevel && extra.combatLevel.increased) {
+                levelled["Combat"] = extra.combatLevel.value;
+            }
+            const formattedLevelList = Object.entries(levelled)
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
                 .replace(/,([^,]+$)/, ', and$1');
