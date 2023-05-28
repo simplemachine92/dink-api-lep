@@ -110,6 +110,16 @@ module.exports = async (request, reply) => {
             dinkMessage = `has looted: ${lootItems.join(', ')}`;
             break;
         }
+        case 'PLAYER_KILL': {
+            const victimValue = Object.values(extra.victimEquipment).reduce((a, b) => a + b);
+
+            if (victimValue < config.DinkConfig.LootMinValue) {
+                break;
+            }
+
+            dinkMessage = `has PKed ${extra.victimName} (level ${extra.victimCombatLevel})!`;
+            break;
+        }
         case 'DEATH': {
             if (extra.isPvp === true) {
                 dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
