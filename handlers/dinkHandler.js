@@ -67,7 +67,7 @@ module.exports = async (request, reply) => {
         }
         case 'COMBAT_ACHIEVEMENT': {
             const achievementTier = utils.formatStringCase(extra.tier);
-            dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task}!`;
+            dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task} (${extra.taskPoints} points)!`;
             break;
         }
         case 'SLAYER': {
