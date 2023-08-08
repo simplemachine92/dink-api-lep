@@ -5,9 +5,12 @@ const tinyDuration = require('tinyduration');
 
 const config = require('../config.json');
 
-const RedisPub = new Redis();
+const RedisPub = new Redis({ lazyConnect: true });
 
 const publishMessage = (msgData) => {
+    if (!config.Options.RedisEnabled) {
+        return;
+    }
     RedisPub.publish('go-bot', JSON.stringify(msgData));
 };
 
@@ -45,6 +48,9 @@ const sendExtraChannels = (twitchUser, message, type) => {
 };
 
 const writeImage = async (imageData) => {
+    if (config.Options.FilePath === '') {
+        return null;
+    }
     if (!imageData) {
         return null;
     }

@@ -1,6 +1,7 @@
 {
     "Options": {
         "DeleteWhitelist": [],
+        "RedisEnabled": true,
         "FilePath": "/mnt/disk/share/runelite",
         "FileURLPrefix": "https://i.ivr.fi/runelite"
     },
