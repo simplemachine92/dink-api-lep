@@ -75,7 +75,11 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'LEVEL': {
-            const formattedLevelList = Object.entries(extra.levelledSkills)
+            const levelled = extra.levelledSkills;
+            if (extra.combatLevel && extra.combatLevel.increased) {
+                levelled["Combat"] = extra.combatLevel.value;
+            }
+            const formattedLevelList = Object.entries(levelled)
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
                 .replace(/,([^,]+$)/, ', and$1');
@@ -84,9 +88,9 @@ module.exports = async (request, reply) => {
         }
         case 'BARBARIAN_ASSAULT_GAMBLE': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
 
-            if (filteredLoot.length === 0) {
+            if (filteredLoot.length !== 0) {
                 for (const item of filteredLoot) {
                     lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
                 }
@@ -97,7 +101,7 @@ module.exports = async (request, reply) => {
         }
         case 'LOOT': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
 
             if (filteredLoot.length === 0) {
                 break;
@@ -108,6 +112,16 @@ module.exports = async (request, reply) => {
             }
 
             dinkMessage = `has looted: ${lootItems.join(', ')}`;
+            break;
+        }
+        case 'PLAYER_KILL': {
+            const victimValue = Object.values(extra.victimEquipment).reduce((a, b) => a + b);
+
+            if (victimValue < config.DinkConfig.LootMinValue) {
+                break;
+            }
+
+            dinkMessage = `has PKed ${extra.victimName} (level ${extra.victimCombatLevel})!`;
             break;
         }
         case 'DEATH': {
