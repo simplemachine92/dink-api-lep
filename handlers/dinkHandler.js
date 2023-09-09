@@ -5,10 +5,12 @@ const config = require('../config.json');
 const allowedUseragents = ['RuneLite/', 'HDOS/'];
 
 module.exports = async (request, reply) => {
-    if (!allowedUseragents.includes(request.headers['user-agent'])) {
-        return reply.status(403).send('Invalid useragent');
+    for (const userAgent of allowedUseragents) {
+        if (request.headers['user-agent'].startsWith(userAgent)) {
+            return reply.status(403).send('Invalid useragent');
+        }
     }
-    
+
     if (!request.body) {
         return reply.status(400).send('Empty POST body');
     }
