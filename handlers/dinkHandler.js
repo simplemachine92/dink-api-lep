@@ -2,8 +2,10 @@ const utils = require('../utils/utils.js');
 
 const config = require('../config.json');
 
+const allowedUseragents = ['RuneLite/', 'HDOS/'];
+
 module.exports = async (request, reply) => {
-    if (!request.headers['user-agent'].startsWith('RuneLite/')) {
+    if (!allowedUseragents.includes(request.headers['user-agent'])) {
         return reply.status(403).send('Invalid useragent');
     }
     
@@ -77,7 +79,7 @@ module.exports = async (request, reply) => {
         case 'LEVEL': {
             const levelled = extra.levelledSkills;
             if (extra.combatLevel && extra.combatLevel.increased) {
-                levelled["Combat"] = extra.combatLevel.value;
+                levelled.Combat = extra.combatLevel.value;
             }
             const formattedLevelList = Object.entries(levelled)
                 .map(i => `${i[0]} to ${i[1]}`)
