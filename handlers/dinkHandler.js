@@ -4,11 +4,18 @@ const config = require('../config.json');
 
 const allowedUseragents = ['RuneLite/', 'HDOS/'];
 
-module.exports = async (request, reply) => {
-    for (const userAgent of allowedUseragents) {
-        if (request.headers['user-agent'].startsWith(userAgent)) {
-            return reply.status(403).send('Invalid useragent');
+function isValidUserAgent (userAgent) {
+    for (const allowedUseragent of allowedUseragents) {
+        if (userAgent.startsWith(allowedUseragent)) {
+            return true;
         }
+    }
+    return false;
+}
+
+module.exports = async (request, reply) => {
+    if (!isValidUserAgent(request.headers['user-agent'])) {
+        return reply.status(403).send('Invalid useragent');
     }
 
     if (!request.body) {
