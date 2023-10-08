@@ -66,8 +66,9 @@ fastify.get('/delete', {
 
 fastify.all('*', (request, reply) => reply.status(404).send({ error: 'Route not found' }));
 
-fastify.listen({ port: 8865, host: '0.0.0.0' })
-    .catch(e => {
-        fastify.log.error('Error starting server:', e);
+fastify.listen({ port: process.env.LISTEN_PORT || 3000 }, (err) => {
+    if (err) {
+        fastify.log.error(err);
         process.exit(1);
-    });
+    }
+});
