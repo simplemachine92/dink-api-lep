@@ -84,7 +84,7 @@ module.exports = async (request, reply) => {
                 const completedTier = utils.formatStringCase(extra.justCompletedTier);
                 dinkMessage = `has unlocked the ${completedTier} tier of rewards by completing the task: ${extra.task} with ${extra.taskPoints} points!`;
             } else {
-                dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task} getting ${extra.taskPoints} points!`;
+                dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task}, getting ${extra.taskPoints} points!`;
             }
             break;
         }
