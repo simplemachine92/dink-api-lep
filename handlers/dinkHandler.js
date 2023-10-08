@@ -62,12 +62,14 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'SPEEDRUN': {
-            dinkMessage = 'has made a new personal best!';
+            dinkMessage = extra?.isPersonalBest === true
+                ? `has completed a speedrun of ${extra.questName} with a new personal best of ${utils.parseDuration(extra.personalBest)}!`
+                : `has completed a speedrun of ${extra.questName}`;
             break;
         }
         case 'KILL_COUNT': {
             dinkMessage = extra.isPersonalBest === true
-                ? `has defeated ${extra.boss} with a new personal best time of ${utils.parseDuration(extra.time)} and total completion count of ${extra.count}!`
+                ? `has defeated ${extra.boss} with a new personal best time of ${utils.parseDuration(extra.time)} and a total completion count of ${extra.count}!`
                 : `has defeated ${extra.boss} with a total completion count of ${extra.count}!`;
             break;
         }
@@ -78,7 +80,12 @@ module.exports = async (request, reply) => {
         }
         case 'COMBAT_ACHIEVEMENT': {
             const achievementTier = utils.formatStringCase(extra.tier);
-            dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task}!`;
+            if (extra.justCompletedTier) {
+                const completedTier = utils.formatStringCase(extra.justCompletedTier);
+                dinkMessage = `has unlocked the ${completedTier} tier of rewards by completing the task: ${extra.task} with ${extra.taskPoints} points!`;
+            } else {
+                dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task} getting ${extra.taskPoints} points!`;
+            }
             break;
         }
         case 'SLAYER': {
