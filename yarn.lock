@@ -81,10 +81,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.49.0":
-  version: 8.49.0
-  resolution: "@eslint/js@npm:8.49.0"
-  checksum: a6601807c8aeeefe866926ad92ed98007c034a735af20ff709009e39ad1337474243d47908500a3bde04e37bfba16bcf1d3452417f962e1345bc8756edd6b830
+"@eslint/js@npm:8.51.0":
+  version: 8.51.0
+  resolution: "@eslint/js@npm:8.51.0"
+  checksum: 0228bf1e1e0414843e56d9ff362a2a72d579c078f93174666f29315690e9e30a8633ad72c923297f7fd7182381b5a476805ff04dac8debe638953eb1ded3ac73
   languageName: node
   linkType: hard
 
@@ -145,20 +145,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/multipart@npm:^7.7.3":
-  version: 7.7.3
-  resolution: "@fastify/multipart@npm:7.7.3"
+"@fastify/multipart@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@fastify/multipart@npm:8.0.0"
   dependencies:
     "@fastify/busboy": ^1.0.0
     "@fastify/deepmerge": ^1.0.0
     "@fastify/error": ^3.0.0
     "@fastify/swagger": ^8.3.1
     "@fastify/swagger-ui": ^1.8.0
-    end-of-stream: ^1.4.4
     fastify-plugin: ^4.0.0
     secure-json-parse: ^2.4.0
     stream-wormhole: ^1.1.0
-  checksum: de9ec4e9d91c7453453e18c1e5b5e3488d1330be0129311c9bd17c6d52ee2b63e266ca16e8e75f33d32d07a40dc776d77d13248377d70dc39e2af8a09fde4b61
+  checksum: a07a6727db2a954074cf5125f8faccda653a6dabc5074dded310444841e4a3657933f700f5f74578517bc3d09b5808950814830349fbc16832c13e1bea8baa29
   languageName: node
   linkType: hard
 
@@ -869,7 +868,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"end-of-stream@npm:^1.1.0, end-of-stream@npm:^1.4.4":
+"end-of-stream@npm:^1.1.0":
   version: 1.4.4
   resolution: "end-of-stream@npm:1.4.4"
   dependencies:
@@ -978,14 +977,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.49.0":
-  version: 8.49.0
-  resolution: "eslint@npm:8.49.0"
+"eslint@npm:^8.51.0":
+  version: 8.51.0
+  resolution: "eslint@npm:8.51.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.6.1
     "@eslint/eslintrc": ^2.1.2
-    "@eslint/js": 8.49.0
+    "@eslint/js": 8.51.0
     "@humanwhocodes/config-array": ^0.11.11
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -1021,7 +1020,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 4dfe257e1e42da2f9da872b05aaaf99b0f5aa022c1a91eee8f2af1ab72651b596366320c575ccd4e0469f7b4c97aff5bb85ae3323ebd6a293c3faef4028b0d81
+  checksum: 214fa5d1fcb67af1b8992ce9584ccd85e1aa7a482f8b8ea5b96edc28fa838a18a3b69456db45fc1ed3ef95f1e9efa9714f737292dc681e572d471d02fda9649c
   languageName: node
   linkType: hard
 
@@ -1184,9 +1183,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:^4.22.2":
-  version: 4.22.2
-  resolution: "fastify@npm:4.22.2"
+"fastify@npm:^4.23.2":
+  version: 4.23.2
+  resolution: "fastify@npm:4.23.2"
   dependencies:
     "@fastify/ajv-compiler": ^3.5.0
     "@fastify/error": ^3.2.0
@@ -1203,8 +1202,8 @@ __metadata:
     rfdc: ^1.3.0
     secure-json-parse: ^2.5.0
     semver: ^7.5.0
-    tiny-lru: ^11.0.1
-  checksum: 495c816a106548d0cf18fb379c5b06de7eecfb79a373d490e341c9f12297e378b3005ef4a36f0cbaccdf8ca818c6ff91832f4ade17726e68d43a0c6e7bc49810
+    toad-cache: ^3.2.0
+  checksum: 125cc67b3dbd86f97918e2dbfc0655cea93d20a93a9a0d14c3a0fd0a1c7fa60bb2a204331baeedea606f085f7b0c11c532c2eac52d1b2bb7bb10334b7e072512
   languageName: node
   linkType: hard
 
@@ -2308,9 +2307,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "pino-pretty@npm:10.2.0"
+"pino-pretty@npm:^10.2.3":
+  version: 10.2.3
+  resolution: "pino-pretty@npm:10.2.3"
   dependencies:
     colorette: ^2.0.7
     dateformat: ^4.6.3
@@ -2328,7 +2327,7 @@ __metadata:
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: 8e8220ab647d11e05349adde37aac116dab1a96ce479297820475b7e2246ea5e56e3764b625c5877821ae66dcea62bdda563cc49eccbd4628c80952998068f48
+  checksum: 9182886855515000df2ef381762c69fc29dbdd9014a76839cc3d8a7a94ac96d4ce17423adb9ddd61eae78986bb0ff3a1d9e6e7aa55476c096a3dd4a0c89440e8
   languageName: node
   linkType: hard
 
@@ -2650,13 +2649,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "runelite-api@workspace:."
   dependencies:
-    "@fastify/multipart": ^7.7.3
-    eslint: ^8.49.0
+    "@fastify/multipart": ^8.0.0
+    eslint: ^8.51.0
     eslint-plugin-unicorn: ^48.0.1
-    fastify: ^4.22.2
+    fastify: ^4.23.2
     ioredis: ^5.3.2
     nodemon: ^3.0.1
-    pino-pretty: ^10.2.0
+    pino-pretty: ^10.2.3
     tinyduration: ^3.3.0
     typescript: ^5.2.2
   languageName: unknown
@@ -2998,13 +2997,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-lru@npm:^11.0.1":
-  version: 11.0.1
-  resolution: "tiny-lru@npm:11.0.1"
-  checksum: 709ab58a454028eae15dd249518a1e348520e22514e52fd625ef89ba04a42599522e9f6cc89f50f76d3809cc46cac352bd0b63f052d23562e7adafe3e728531a
-  languageName: node
-  linkType: hard
-
 "tinyduration@npm:^3.3.0":
   version: 3.3.0
   resolution: "tinyduration@npm:3.3.0"
@@ -3018,6 +3010,13 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"toad-cache@npm:^3.2.0":
+  version: 3.3.0
+  resolution: "toad-cache@npm:3.3.0"
+  checksum: 971bb91e0e3487494b0b7b00ad8614738e1925e536d897da26be36f03edb3298c82b2a5e18155d5323ed6258e7f1d90e99558c11e3610c87fce47b62dd7b167a
   languageName: node
   linkType: hard
 

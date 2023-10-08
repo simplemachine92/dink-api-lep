@@ -4,20 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "packageManager": "yarn@3.6.3",
+  "packageManager": "yarn@3.6.4",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "@fastify/multipart": "^7.7.3",
-    "fastify": "^4.22.2",
+    "@fastify/multipart": "^8.0.0",
+    "fastify": "^4.23.2",
     "ioredis": "^5.3.2",
-    "pino-pretty": "^10.2.0",
+    "pino-pretty": "^10.2.3",
     "tinyduration": "^3.3.0"
   },
   "devDependencies": {
-    "eslint": "^8.49.0",
+    "eslint": "^8.51.0",
     "eslint-plugin-unicorn": "^48.0.1",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
