@@ -64,7 +64,7 @@ module.exports = async (request, reply) => {
         case 'SPEEDRUN': {
             dinkMessage = extra?.isPersonalBest === true
                 ? `has completed a speedrun of ${extra.questName} with a new personal best of ${utils.parseDuration(extra.personalBest)}!`
-                : `has completed a speedrun of ${extra.questName}`;
+                : `has completed a speedrun of ${extra.questName} in ${utils.parseDuration(extra.currentTime)}!`;
             break;
         }
         case 'KILL_COUNT': {
