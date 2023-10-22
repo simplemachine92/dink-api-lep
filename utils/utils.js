@@ -28,7 +28,7 @@ const checkTwitchName = (twitchUser, runescapeUser) => {
     return Boolean(nameData.includes(runescapeUser));
 };
 
-const sendExtraChannels = (twitchUser, message, type) => {
+const sendExtraChannels = (twitchUser, message, isDeath) => {
     const extraChannels = config.UserConfig?.[twitchUser.toLowerCase()];
 
     if (extraChannels === undefined) {
@@ -39,7 +39,7 @@ const sendExtraChannels = (twitchUser, message, type) => {
         const customEmotes = extraChannels?.emotes?.[channel] ?? config.ChannelConfig?.[channel];
         let customMessage = `${customEmotes?.DinkEmote ?? config.Default.DinkEmote} ${message}`;
 
-        if (type === 'death') {
+        if (isDeath === true) {
             customMessage = `${customEmotes?.DeathEmote ?? config.Default.DeathEmote} ${message}`;
         }
 
