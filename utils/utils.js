@@ -102,19 +102,19 @@ module.exports.formatCurrency = (value) => {
     }
 };
 
-module.exports.handleDinkMessage = async (runescapeUser, twitchUser, message, imageData, isDeath = false) => {
+module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, message, imageData, isDeath = false) => {
     const imageURL = await writeImage(imageData);
 
     const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
     const identicalNames = Boolean(runescapeUser?.toLowerCase() === twitchUser?.toLowerCase());
 
-    const { Channel, DinkEmote, DeathEmote } = config.Default;
+    const { DinkConfig: { SeasonalEmoji }, Default: { Channel, DinkEmote, DeathEmote } } = config;
 
     const buildMessage = (message) => {
         if (validTwitchUser === true) {
-            return `${runescapeUser} ( @${twitchUser} ) ${message} ${imageURL ?? ''}`;
+            return `${seasonalWorld === true ? SeasonalEmoji : ''} ${runescapeUser} ( @${twitchUser} ) ${message} ${imageURL ?? ''}`;
         } else {
-            return `${runescapeUser} ${message} ${imageURL ?? ''}`;
+            return `${seasonalWorld === true ? SeasonalEmoji : ''} ${runescapeUser} ${message} ${imageURL ?? ''}`;
         }
     };
 

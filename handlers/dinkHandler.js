@@ -40,7 +40,7 @@ module.exports = async (request, reply) => {
 
     const image = file ? await utils.fileToBase64(file) : null;
 
-    const { type, extra, playerName } = parsedPayload;
+    const { type, extra, playerName, seasonalWorld } = parsedPayload;
 
     let dinkMessage = null;
     
@@ -156,7 +156,7 @@ module.exports = async (request, reply) => {
     }
 
     if (dinkMessage !== null) {
-        await utils.handleDinkMessage(playerName, twitchUser, dinkMessage, image, (type === 'DEATH'));
+        await utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, dinkMessage, image, (type === 'DEATH'));
     }
 
     return reply.send('OK');

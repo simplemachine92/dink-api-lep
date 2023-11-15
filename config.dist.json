@@ -6,7 +6,8 @@
         "FileURLPrefix": "https://i.ivr.fi/runelite"
     },
     "DinkConfig": {
-        "LootMinValue": 100000
+        "LootMinValue": 100000,
+        "SeasonalEmoji": "🎖️"
     },
     "Default": {
         "Channel": "pajlada",
