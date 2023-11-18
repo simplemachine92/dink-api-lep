@@ -58,7 +58,14 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'PET': {
-            dinkMessage = 'has obtained a pet!';
+            if (extra.duplicate || extra.previouslyOwned) {
+                dinkMessage = 'has obtained a duplicate pet.';
+            } else if (extra.petName) {
+                const milestone = extra.milestone ? ` at ${extra.milestone}` : '';
+                dinkMessage = `has obtained a new pet${milestone}: ${extra.petName}!`;
+            } else {
+                dinkMessage = 'has obtained a new pet!';
+            }
             break;
         }
         case 'SPEEDRUN': {
