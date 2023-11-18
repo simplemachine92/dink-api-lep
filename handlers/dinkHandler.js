@@ -150,6 +150,32 @@ module.exports = async (request, reply) => {
             }
             break;
         }
+        case 'LEAGUES_AREA': {
+            dinkMessage = `has unlocked the ${extra.area} area at ${extra.tasksCompleted} tasks completed.`;
+            break;
+        }
+        case 'LEAGUES_RELIC': {
+            dinkMessage = `has unlocked a new Tier ${extra.tier} Relic: ${extra.relic}!`;
+            break;
+        }
+        case 'LEAGUES_TASK': {
+            if (extra.earnedTrophy) {
+                dinkMessage = `has unlocked the ${extra.earnedTrophy} trophy by completing the ${extra.difficulty} task: ${extra.taskName}!`;
+            } else {
+                dinkMessage = `has completed a ${extra.difficulty} task: ${extra.taskName}.`;
+
+                if (extra.tasksUntilNextArea) {
+                    dinkMessage += ` They have ${extra.tasksUntilNextArea} tasks remaining until the next area unlock.`;
+                } else if (extra.pointsUntilNextRelic) {
+                    dinkMessage += ` They have ${extra.pointsUntilNextRelic} points remaining until their next relic.`;
+                } else if (extra.pointsUntilNextTrophy) {
+                    dinkMessage += ` They have ${extra.pointsUntilNextTrophy} points remaining until their next trophy.`;
+                } else if (extra.totalPoints >= 56000) {
+                    dinkMessage += ' They have no reason to keep playing, and should touch grass.';
+                }
+            }
+            break;
+        }
         default: {
             request.log.info(`Unhandled Dink type: ${type}`);
         }
