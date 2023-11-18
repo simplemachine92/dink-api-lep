@@ -166,10 +166,11 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'LEAGUES_TASK': {
+            const taskDifficulty = utils.formatStringCase(extra.difficulty);
             if (extra.earnedTrophy) {
-                dinkMessage = `has unlocked the ${extra.earnedTrophy} trophy by completing the ${extra.difficulty} task: ${extra.taskName}!`;
+                dinkMessage = `has unlocked the ${extra.earnedTrophy} trophy by completing the ${taskDifficulty} task: ${extra.taskName}!`;
             } else {
-                dinkMessage = `has completed a ${extra.difficulty} task: ${extra.taskName}.`;
+                dinkMessage = `has completed a ${taskDifficulty} task: ${extra.taskName}.`;
 
                 if (extra.tasksUntilNextArea) {
                     dinkMessage += ` They have ${extra.tasksUntilNextArea} tasks remaining until the next area unlock.`;
