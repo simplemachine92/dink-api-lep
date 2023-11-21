@@ -102,7 +102,7 @@ module.exports.formatCurrency = (value) => {
     }
 };
 
-module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, message, imageData, isDeath = false) => {
+module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, message, imageData, isDeath = false) => {
     const imageURL = await writeImage(imageData);
 
     const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
@@ -120,7 +120,10 @@ module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUs
 
     const formattedMessage = buildMessage(message);
 
-    sendTwitchMessage(Channel, `${isDeath === true ? DeathEmote : DinkEmote} ${formattedMessage}`);
+    if (skipDefaultChannel === false) {
+        sendTwitchMessage(Channel, `${isDeath === true ? DeathEmote : DinkEmote} ${formattedMessage}`);
+    }
+
 
     if (validTwitchUser === true || identicalNames === true) {
         sendExtraChannels(twitchUser, formattedMessage, isDeath);
