@@ -52,7 +52,7 @@ const writeImage = async (imageData) => {
         return null;
     }
 
-    if (config.Options.Storage === '' || config.Options.Storage !== 'file' || config.Options.Storage !== 's3') {
+    if (config.Options.Storage === '' || config.Options.Storage !== 'file' && config.Options.Storage !== 's3') {
         console.log('No Storage backend configured or invalid backend specified. Valid backends: [file, s3]');
         return null;
     }
