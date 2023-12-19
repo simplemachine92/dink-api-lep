@@ -13,7 +13,7 @@ const S3 = new S3Client({
 const uploadFile = async (fileName, fileData) => {
     const putCommand = new PutObjectCommand({
         Bucket: Config.S3.Bucket,
-        Key: fileName,
+        Key: `${fileName}.png`,
         Body: fileData,
         ContentEncoding: 'base64',
         ContentType: 'image/png'
