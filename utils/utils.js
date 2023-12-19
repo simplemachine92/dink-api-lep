@@ -70,8 +70,7 @@ const writeImage = async (imageData) => {
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
 
     if (config.Options.Storage === 'file') {
-        const fileData = Buffer.from(imageData, 'base64');
-        await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, fileData);
+        await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
     } else if (config.Options.Storage === 's3') {
         const S3Client = require('./s3.js');
         await S3Client.uploadFile(fileName, imageData);
@@ -92,11 +91,6 @@ const sendTwitchMessage = (channel, message) => {
         }
     };
     publishMessage(msgData);
-};
-
-module.exports.fileToBase64 = async (file) => {
-    const imageBuffer = await file.toBuffer();
-    return imageBuffer.toString('base64');
 };
 
 module.exports.formatStringCase = (string) => {

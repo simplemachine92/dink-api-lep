@@ -40,7 +40,7 @@ module.exports = async (request, reply) => {
         return reply.status(400).send('Missing type in payload!');
     }
 
-    const image = file ? await utils.fileToBase64(file) : null;
+    const image = file ? await file.toBuffer() : null;
 
     const { type, extra, playerName, seasonalWorld } = parsedPayload;
 

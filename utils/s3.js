@@ -15,7 +15,6 @@ const uploadFile = async (fileName, fileData) => {
         Bucket: Config.S3.Bucket,
         Key: `${fileName}.png`,
         Body: fileData,
-        ContentEncoding: 'base64',
         ContentType: 'image/png'
     });
 
