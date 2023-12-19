@@ -55,7 +55,11 @@ const writeImage = async (imageData) => {
         return null;
     }
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
-    await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, Buffer.from(imageData, 'base64'));
+
+    await fsp.writeFile(`${config.Options.TempFilePath}/${fileName}.png`, Buffer.from(imageData, 'base64'));
+
+    await fsp.copyFile(`${config.Options.TempFilePath}/${fileName}.png`, `${config.Options.FilePath}/${fileName}.png`);
+
     return `${config.Options.FileURLPrefix}/${fileName}.png`;
 };
 

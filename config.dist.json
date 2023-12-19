@@ -2,8 +2,9 @@
     "Options": {
         "DeleteWhitelist": [],
         "RedisEnabled": true,
-        "FilePath": "/mnt/disk/share/runelite",
-        "FileURLPrefix": "https://i.ivr.fi/runelite"
+        "TempFilePath": "/opt/data/runelite_tmp",
+        "FilePath": "/opt/data/runelite",
+        "FileURLPrefix": "https://dink.ivr.fi"
     },
     "DinkConfig": {
         "LootMinValue": 100000,
