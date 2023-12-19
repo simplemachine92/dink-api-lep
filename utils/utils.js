@@ -68,13 +68,13 @@ const writeImage = async (imageData) => {
     }
 
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
-    const fileData = Buffer.from(imageData, 'base64');
 
     if (config.Options.Storage === 'file') {
+        const fileData = Buffer.from(imageData, 'base64');
         await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, fileData);
     } else if (config.Options.Storage === 's3') {
         const S3Client = require('./s3.js');
-        await S3Client.uploadFile(fileName, fileData);
+        await S3Client.uploadFile(fileName, imageData);
     }
 
     return `${config.Options.FileURLPrefix}/${fileName}.png`;
