@@ -70,7 +70,7 @@ const writeImage = async (imageData) => {
         case 'file':
             await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
             break;
-        case 's3:':
+        case 's3':
             await S3Client.uploadFile(fileName, imageData);
             break;
     }
