@@ -3,6 +3,8 @@ const Crypto = require('crypto');
 const fsp = require('fs/promises');
 const tinyDuration = require('tinyduration');
 
+const S3Client = require('./s3.js');
+
 const config = require('../config.json');
 
 const RedisPub = new Redis({ lazyConnect: true });
@@ -62,18 +64,15 @@ const writeImage = async (imageData) => {
         return null;
     }
 
-    if (config.Options.Storage === 's3' && config.S3.Endpoint === '') {
-        console.log('No S3 options configured with S3 based storage');
-        return null;
-    }
-
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
 
-    if (config.Options.Storage === 'file') {
-        await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
-    } else if (config.Options.Storage === 's3') {
-        const S3Client = require('./s3.js');
-        await S3Client.uploadFile(fileName, imageData);
+    switch (config.Options.Storage) {
+        case 'file':
+            await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
+            break;
+        case 's3:':
+            await S3Client.uploadFile(fileName, imageData);
+            break;
     }
 
     return `${config.Options.FileURLPrefix}/${fileName}.png`;
