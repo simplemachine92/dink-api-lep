@@ -2,9 +2,16 @@
     "Options": {
         "DeleteWhitelist": [],
         "RedisEnabled": true,
-        "TempFilePath": "/opt/data/runelite_tmp",
+        "Storage": "file",
         "FilePath": "/opt/data/runelite",
         "FileURLPrefix": "https://dink.ivr.fi"
+    },
+    "S3": {
+        "Region": "",
+        "Endpoint": "",
+        "Bucket": "",
+        "AccessKey": "",
+        "SecretKey": ""
     },
     "DinkConfig": {
         "LootMinValue": 100000,

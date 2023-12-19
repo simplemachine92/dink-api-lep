@@ -195,7 +195,5 @@ module.exports = async (request, reply) => {
         await utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, skipDefaultChannel, dinkMessage, image, (type === 'DEATH'));
     }
 
-    request.log.info('Payload Processed');
-
     return reply.send('OK');
 };

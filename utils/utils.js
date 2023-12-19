@@ -48,17 +48,34 @@ const sendExtraChannels = (twitchUser, message, isDeath) => {
 };
 
 const writeImage = async (imageData) => {
-    if (config.Options.FilePath === '') {
-        return null;
-    }
     if (!imageData) {
         return null;
     }
+
+    if (config.Options.Storage === '' || config.Options.Storage !== 'file' || config.Options.Storage !== 's3') {
+        console.log('No Storage backend configured or invalid backend specified. Valid backends: [file, s3]');
+        return null;
+    }
+
+    if (config.Options.Storage === 'file' && config.Options.FilePath === '') {
+        console.log('No filepath configured with file based storage');
+        return null;
+    }
+
+    if (config.Options.Storage === 's3' && config.S3.Endpoint === '') {
+        console.log('No S3 options configured with S3 based storage');
+        return null;
+    }
+
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
+    const fileData = Buffer.from(imageData, 'base64');
 
-    await fsp.writeFile(`${config.Options.TempFilePath}/${fileName}.png`, Buffer.from(imageData, 'base64'));
-
-    await fsp.copyFile(`${config.Options.TempFilePath}/${fileName}.png`, `${config.Options.FilePath}/${fileName}.png`);
+    if (config.Options.Storage === 'file') {
+        await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, fileData);
+    } else if (config.Options.Storage === 's3') {
+        const S3Client = require('./s3.js');
+        await S3Client.uploadFile(fileName, fileData);
+    }
 
     return `${config.Options.FileURLPrefix}/${fileName}.png`;
 };
