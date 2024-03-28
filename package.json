@@ -4,23 +4,23 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.1",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.476.0",
-    "@fastify/multipart": "^8.0.0",
-    "fastify": "^4.25.0",
+    "@aws-sdk/client-s3": "^3.540.0",
+    "@fastify/multipart": "^8.2.0",
+    "fastify": "^4.26.2",
     "ioredis": "^5.3.2",
-    "pino-pretty": "^10.2.3",
+    "pino-pretty": "^11.0.0",
     "tinyduration": "^3.3.0"
   },
   "devDependencies": {
-    "eslint": "^8.55.0",
-    "eslint-plugin-unicorn": "^49.0.0",
-    "nodemon": "^3.0.2",
-    "typescript": "^5.3.3"
+    "eslint": "^8.57.0",
+    "eslint-plugin-unicorn": "^51.0.1",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.4.3"
   }
 }
