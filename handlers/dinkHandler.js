@@ -159,6 +159,12 @@ module.exports = async (request, reply) => {
             }
             break;
         }
+        case 'XP': {
+            const milestoneSkill = extra.milestoneAchieved[0];
+            const xpMilestone = extra.xpData[milestoneSkill].toLocaleString('en-us');
+            dinkMessage = `has reached a new milestone of ${xpMilestone} XP in ${utils.formatStringCase(milestoneSkill)}!`;
+            break;
+        }
         case 'LEAGUES_AREA': {
             dinkMessage = `has unlocked the ${extra.area} area at ${extra.tasksCompleted} tasks completed.`;
             break;
