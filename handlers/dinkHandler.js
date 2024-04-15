@@ -160,7 +160,9 @@ module.exports = async (request, reply) => {
         }
         case 'XP': {
             const milestoneSkill = extra.milestoneAchieved[0];
-            const xpMilestone = extra.xpData[milestoneSkill].toLocaleString('en-us');
+            const milestoneXP = extra.xpData[milestoneSkill];
+            const exactXP = milestoneXP - milestoneXP % 1e6;
+            const xpMilestone = exactXP.toLocaleString('en-us');
             dinkMessage = `has reached a new milestone of ${xpMilestone} XP in ${utils.formatStringCase(milestoneSkill)}!`;
             break;
         }
