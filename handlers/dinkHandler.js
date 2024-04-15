@@ -60,13 +60,12 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'PET': {
-            if (extra.duplicate || extra.previouslyOwned) {
-                dinkMessage = 'has obtained a duplicate pet.';
-            } else if (extra.petName) {
+            const petKind = (extra.duplicate || extra.previouslyOwned) ? 'duplicate' : 'new';
+            if (extra.petName) {
                 const milestone = extra.milestone ? ` at ${extra.milestone}` : '';
-                dinkMessage = `has obtained a new pet${milestone}: ${extra.petName}!`;
+                dinkMessage = `has obtained a ${petKind} pet${milestone}: ${extra.petName}!`;
             } else {
-                dinkMessage = 'has obtained a new pet!';
+                dinkMessage = `has obtained a ${petKind} pet!`;
             }
             break;
         }
