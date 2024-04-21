@@ -158,12 +158,12 @@ module.exports = async (request, reply) => {
             }
             break;
         }
-        case 'XP': {
+        case 'XP_MILESTONE': {
             const milestoneSkill = extra.milestoneAchieved[0];
             const milestoneXP = extra.xpData[milestoneSkill];
             const exactXP = milestoneXP - milestoneXP % 1e6;
             const xpMilestone = exactXP.toLocaleString('en-us');
-            dinkMessage = `has reached a new milestone of ${xpMilestone} XP in ${utils.formatStringCase(milestoneSkill)}!`;
+            dinkMessage = `has reached a new milestone of ${xpMilestone} XP in ${milestoneSkill}!`;
             break;
         }
         case 'LEAGUES_AREA': {
