@@ -32,6 +32,8 @@ module.exports = async (request, reply) => {
 
     const twitchUser = request.query.twitch_username ?? null;
 
+    const skipImage = request.query?.skipImage === 'true';
+
     const skipDefaultChannel = request.query?.skipDefaultChannel === 'true';
 
     const parsedPayload = JSON.parse(payload_json.value);
@@ -199,7 +201,7 @@ module.exports = async (request, reply) => {
     }
 
     if (dinkMessage !== null) {
-        await utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, skipDefaultChannel, dinkMessage, image, (type === 'DEATH'));
+        await utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, dinkMessage, image, (type === 'DEATH'));
     }
 
     return reply.send('OK');

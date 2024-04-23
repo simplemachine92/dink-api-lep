@@ -49,8 +49,8 @@ const sendExtraChannels = (twitchUser, message, isDeath) => {
     }
 };
 
-const writeImage = async (imageData) => {
-    if (!imageData) {
+const writeImage = async (imageData, skipImage) => {
+    if (!imageData || skipImage === true) {
         return null;
     }
 
@@ -116,8 +116,8 @@ module.exports.formatCurrency = (value) => {
     }
 };
 
-module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, message, imageData, isDeath = false) => {
-    const imageURL = await writeImage(imageData);
+module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, message, imageData, isDeath = false) => {
+    const imageURL = await writeImage(imageData, skipImage);
 
     const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
     const identicalNames = Boolean(runescapeUser?.toLowerCase() === twitchUser?.toLowerCase());
