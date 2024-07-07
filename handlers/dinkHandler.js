@@ -104,6 +104,10 @@ module.exports = async (request, reply) => {
         }
         case 'LEVEL': {
             const levelled = extra.levelledSkills;
+            const allSkillLevels = Object.values(extra.allSkills);
+            const totalLevel = allSkillLevels.reduce((a, b) => a + b, 0);
+            const isMaxed = allSkillLevels.every(level => level === 99);
+
             if (extra.combatLevel && extra.combatLevel.increased) {
                 levelled.Combat = extra.combatLevel.value;
             }
@@ -111,7 +115,17 @@ module.exports = async (request, reply) => {
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
                 .replace(/,([^,]+$)/, ', and$1');
-            dinkMessage = `has levelled up ${formattedLevelList}!`;
+ 
+            dinkMessage = `has levelled up ${formattedLevelList}`;
+
+            if (totalLevel % 100) {
+                dinkMessage = `${dinkMessage} and has reached total level of ${totalLevel}!`;
+            } else if (isMaxed) {
+                dinkMessage = `${dinkMessage} and has maxed their account!`;
+            } else {
+                dinkMessage = `${dinkMessage}!`;
+            }
+
             break;
         }
         case 'BARBARIAN_ASSAULT_GAMBLE': {
