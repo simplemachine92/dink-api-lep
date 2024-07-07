@@ -118,7 +118,7 @@ module.exports = async (request, reply) => {
  
             dinkMessage = `has levelled up ${formattedLevelList}`;
 
-            if (totalLevel % 100) {
+            if (totalLevel % 100 === 0) {
                 dinkMessage = `${dinkMessage} and has reached total level of ${totalLevel}!`;
             } else if (isMaxed) {
                 dinkMessage = `${dinkMessage} and has maxed their account!`;
