@@ -132,13 +132,13 @@ module.exports = async (request, reply) => {
             const lootItems = [];
             const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
 
-            if (filteredLoot.length !== 0) {
+            if (filteredLoot.length > 0) {
                 for (const item of filteredLoot) {
                     lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
                 }
             }
 
-            dinkMessage = `has reached ${extra.gambleCount} Barbarian Assault high gambles! ${lootItems.length !== 0 ? lootItems.join(', ') : ''}`;
+            dinkMessage = `has reached ${extra.gambleCount} Barbarian Assault high gambles! ${lootItems.length === 0 ? '' : lootItems.join(', ')}`;
             break;
         }
         case 'LOOT': {
@@ -167,6 +167,7 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'DEATH': {
+            // eslint-disable-next-line unicorn/prefer-ternary
             if (extra.isPvp === true) {
                 dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
             } else {
@@ -203,7 +204,7 @@ module.exports = async (request, reply) => {
                     dinkMessage += ` They have ${extra.pointsUntilNextRelic} points remaining until their next relic.`;
                 } else if (extra.pointsUntilNextTrophy) {
                     dinkMessage += ` They have ${extra.pointsUntilNextTrophy} points remaining until their next trophy.`;
-                } else if (extra.totalPoints >= 56000) {
+                } else if (extra.totalPoints >= 56_000) {
                     dinkMessage += ' They have no reason to keep playing, and should touch grass.';
                 }
             }

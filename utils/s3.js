@@ -1,19 +1,24 @@
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const Config = require('../config.json');
 
-if (Config.Options.Storage !== 's3' && Config.S3.Region === '' || Config.S3.Endpoint === '' || Config.S3.Bucket === '' || Config.S3.AccessKey === '' || Config.S3.SecretKey === '') {
-    console.log('S3 configuration missing or incomplete. Not initializing S3 Client');
-    return;
-}
+/**
+ * @type { S3Client }
+*/
 
-const S3 = new S3Client({
-    region: Config.S3.Region,
-    endpoint: Config.S3.Endpoint,
-    credentials: {
-        accessKeyId: Config.S3.AccessKey,
-        secretAccessKey: Config.S3.SecretKey
+let S3Instance = null;
+
+const initializeS3Client = () => {
+    if (Config.Options.Storage === 's3' && S3Instance instanceof S3Client === false) {
+        S3Instance = new S3Client({
+            region: Config.S3.Region,
+            endpoint: Config.S3.Endpoint,
+            credentials: {
+                accessKeyId: Config.S3.AccessKey,
+                secretAccessKey: Config.S3.SecretKey
+            }
+        });
     }
-});
+};
 
 const uploadFile = async (fileName, fileData) => {
     const putCommand = new PutObjectCommand({
@@ -23,9 +28,10 @@ const uploadFile = async (fileName, fileData) => {
         ContentType: 'image/png'
     });
 
-    await S3.send(putCommand);
+    await S3Instance.send(putCommand);
 };
 
 module.exports = {
+    initializeS3Client,
     uploadFile
 };

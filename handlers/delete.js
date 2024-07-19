@@ -1,11 +1,12 @@
 const config = require('../config.json');
-const fs = require('fs');
+const fs = require('node:fs');
 
 module.exports = async (request, reply) => {
     if (!config.Options.DeleteWhitelist.includes(request.ip)) {
         return reply.status(403).send('Invalid IP Address');
     }
 
+    // eslint-disable-next-line no-unused-vars
     const twitchUser = request.query.twitch_username;
     const fileName = request.query.fileName;
 

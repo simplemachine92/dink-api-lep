@@ -1,9 +1,10 @@
 const Redis = require('ioredis');
-const Crypto = require('crypto');
-const fsp = require('fs/promises');
+const Crypto = require('node:crypto');
+const fsp = require('node:fs/promises');
 const tinyDuration = require('tinyduration');
 
 const S3Client = require('./s3.js');
+S3Client.initializeS3Client();
 
 const config = require('../config.json');
 
@@ -67,12 +68,14 @@ const writeImage = async (imageData, skipImage) => {
     const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
 
     switch (config.Options.Storage) {
-        case 'file':
+        case 'file': {
             await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
             break;
-        case 's3':
+        }
+        case 's3': {
             await S3Client.uploadFile(fileName, imageData);
             break;
+        }
     }
 
     return `${config.Options.FileURLPrefix}/${fileName}.png`;
@@ -125,6 +128,7 @@ module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUs
     const { DinkConfig: { SeasonalEmoji }, Default: { Channel, DinkEmote, DeathEmote } } = config;
 
     const buildMessage = (message) => {
+        // eslint-disable-next-line unicorn/prefer-ternary
         if (validTwitchUser === true) {
             return `${seasonalWorld === true ? SeasonalEmoji : ''} ${runescapeUser} ( @${twitchUser} ) ${message} ${imageURL ?? ''}`;
         } else {

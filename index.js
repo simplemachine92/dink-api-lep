@@ -6,7 +6,7 @@ const fastify = require('fastify')({
     trustProxy: true,
     requestIdHeader: false,
     genReqId () {
-        return undefined;
+        return null;
     },
     logger: {
         transport: {
