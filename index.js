@@ -2,6 +2,9 @@
  * @type {import('fastify').FastifyInstance} Instance of Fastify
  */
 
+const LISTEN_HOST = process.env.LISTEN_HOST || '127.0.0.1';
+const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
+
 const fastify = require('fastify')({
     trustProxy: true,
     requestIdHeader: false,
@@ -21,7 +24,7 @@ const fastify = require('fastify')({
 });
 
 fastify.addHook('onResponse', async (req, reply) => {
-    const responseTime = `${reply.getResponseTime().toFixed('3')}ms`;
+    const responseTime = `${reply.elapsedTime().toFixed('3')}ms`;
     const statusCode = reply.raw.statusCode;
     const userAgent = req.headers['user-agent'] ?? null;
     const url = req.raw.url;
@@ -66,7 +69,7 @@ fastify.get('/delete', {
 
 fastify.all('*', (request, reply) => reply.status(404).send({ error: 'Route not found' }));
 
-fastify.listen({ port: process.env.LISTEN_PORT || 3000 }, (err) => {
+fastify.listen({ port: LISTEN_PORT, host: LISTEN_HOST }, (err) => {
     if (err) {
         fastify.log.error(err);
         process.exit(1);
