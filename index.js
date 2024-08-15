@@ -7,10 +7,6 @@ const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
 
 const fastify = require('fastify')({
     trustProxy: true,
-    requestIdHeader: false,
-    genReqId () {
-        return null;
-    },
     logger: {
         transport: {
             target: 'pino-pretty',
