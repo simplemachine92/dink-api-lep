@@ -54,7 +54,8 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'CLUE': {
-            dinkMessage = `has completed a ${extra.clueType} clue, making that ${extra.numberCompleted} in total!`;
+            const clueType = utils.formatStringCase(extra.clueType);
+            dinkMessage = `has completed an ${clueType} clue, making that ${extra.numberCompleted} in total!`;
             break;
         }
         case 'COLLECTION': {
