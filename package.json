@@ -10,7 +10,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.627.0",
+    "@aws-sdk/client-s3": "^3.631.0",
     "@fastify/multipart": "^8.3.0",
     "fastify": "^4.28.1",
     "ioredis": "^5.4.1",
@@ -18,8 +18,8 @@
     "tinyduration": "^3.3.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "eslint": "^9.8.0",
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
     "eslint-plugin-unicorn": "^55.0.0",
     "globals": "^15.9.0",
     "nodemon": "^3.1.4",
