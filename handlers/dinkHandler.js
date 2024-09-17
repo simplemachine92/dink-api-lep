@@ -59,7 +59,7 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'COLLECTION': {
-            dinkMessage = `has added ${extra.itemName} to their collection!`;
+            dinkMessage = `has added ${extra.itemName} to their collection! (${extra.completedEntries}/${extra.totalEntries})`;
             break;
         }
         case 'PET': {
