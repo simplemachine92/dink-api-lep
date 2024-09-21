@@ -59,7 +59,8 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'COLLECTION': {
-            dinkMessage = `has added ${extra.itemName} to their collection! (${extra.completedEntries}/${extra.totalEntries})`;
+            const logEntries = extra.completedEntries ? `(${extra.completedEntries}/${extra.totalEntries})` : '';
+            dinkMessage = `has added ${extra.itemName} to their collection! ${logEntries}`;
             break;
         }
         case 'PET': {
