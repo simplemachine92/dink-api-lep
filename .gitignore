@@ -1,9 +1,8 @@
-.vscode/sftp.json
 .vscode/extensions.json
 
 .pnp.*
 .yarn/*
 !.yarn/sdks
 
-ecosystem.config.js
+node_modules
 config.json

@@ -1,9 +1,9 @@
+const LISTEN_HOST = process.env.LISTEN_HOST || '127.0.0.1';
+const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
+
 /**
  * @type {import('fastify').FastifyInstance} Instance of Fastify
  */
-
-const LISTEN_HOST = process.env.LISTEN_HOST || '127.0.0.1';
-const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
 
 const fastify = require('fastify')({
     trustProxy: true,
