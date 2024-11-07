@@ -179,7 +179,7 @@ module.exports = async (request, reply) => {
         case 'DEATH': {
             // eslint-disable-next-line unicorn/prefer-ternary
             if (extra.isPvp === true) {
-                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
+                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${utils.formatCurrency(extra.valueLost)}!`}`;
             } else {
                 dinkMessage = 'has died!';
             }
