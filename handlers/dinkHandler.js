@@ -107,12 +107,20 @@ module.exports = async (request, reply) => {
         case 'LEVEL': {
             const levelled = extra.levelledSkills;
             const allSkillLevels = Object.values(extra.allSkills);
+
+            for (const [index, skillLevel] of allSkillLevels.entries()) {
+                if (skillLevel > 99) {
+                    allSkillLevels[index] = 99;
+                }
+            }
+
             const totalLevel = allSkillLevels.reduce((a, b) => a + b, 0);
             const isMaxed = allSkillLevels.every(level => level === 99);
 
             if (extra.combatLevel && extra.combatLevel.increased) {
                 levelled.Combat = extra.combatLevel.value;
             }
+            
             const formattedLevelList = Object.entries(levelled)
                 .map(i => `${i[0]} to ${i[1]}`)
                 .join(', ')
@@ -171,7 +179,7 @@ module.exports = async (request, reply) => {
         case 'DEATH': {
             // eslint-disable-next-line unicorn/prefer-ternary
             if (extra.isPvp === true) {
-                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${utils.formatCurrency(extra.valueLost)}!`}`;
+                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${extra.valueLost}gp!`}`;
             } else {
                 dinkMessage = 'has died!';
             }
