@@ -115,7 +115,7 @@ module.exports = async (request, reply) => {
             }
 
             const totalLevel = allSkillLevels.reduce((a, b) => a + b, 0);
-            const isMaxed = allSkillLevels.every(level => level === 99);
+            const isMaxed = Object.values(levelled).includes(99) && allSkillLevels.every(level => level >= 99);
 
             if (extra.combatLevel && extra.combatLevel.increased) {
                 levelled.Combat = extra.combatLevel.value;
