@@ -106,6 +106,9 @@ module.exports = async (request, reply) => {
         }
         case 'LEVEL': {
             const levelled = extra.levelledSkills;
+            const levelledList = Object.values(levelled);
+
+            const isVirtualLevelOnly = levelledList.every(i => i > 99);
             const allSkillLevels = Object.values(extra.allSkills);
 
             for (const [index, skillLevel] of allSkillLevels.entries()) {
@@ -115,7 +118,7 @@ module.exports = async (request, reply) => {
             }
 
             const totalLevel = allSkillLevels.reduce((a, b) => a + b, 0);
-            const isMaxed = Object.values(levelled).includes(99) && allSkillLevels.every(level => level >= 99);
+            const isMaxed = levelledList.includes(99) && allSkillLevels.every(level => level >= 99);
 
             if (extra.combatLevel && extra.combatLevel.increased) {
                 levelled.Combat = extra.combatLevel.value;
@@ -128,7 +131,7 @@ module.exports = async (request, reply) => {
  
             dinkMessage = `has levelled up ${formattedLevelList}`;
 
-            if (totalLevel % 100 === 0) {
+            if (totalLevel % 100 === 0 && !isVirtualLevelOnly) {
                 dinkMessage = `${dinkMessage} and has reached total level of ${totalLevel}!`;
             } else if (isMaxed) {
                 dinkMessage = `${dinkMessage} and has maxed their account!`;
