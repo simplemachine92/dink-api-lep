@@ -1,8 +1,2 @@
-.vscode/extensions.json
-
-.pnp.*
-.yarn/*
-!.yarn/sdks
-
 node_modules
 config.json

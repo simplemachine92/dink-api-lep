@@ -1,16 +1,16 @@
 /* eslint-disable quote-props */
-const unicornPlugin = require('eslint-plugin-unicorn');
-const eslintJs = require('@eslint/js');
-const globals = require('globals');
+import unicornPlugin from 'eslint-plugin-unicorn';
+import eslintJs from '@eslint/js';
+import globals from 'globals';
 
-const eslintConfig = [
+export default [
     eslintJs.configs.recommended,
-    unicornPlugin.configs['flat/all'],
+    unicornPlugin.configs.all,
     {
         languageOptions: {
             globals: {
                 ...globals.node,
-                ...globals.es2022
+                ...globals.es2025
             }
         },
         rules: {
@@ -121,5 +121,3 @@ const eslintConfig = [
         }
     }
 ];
-
-module.exports = eslintConfig;
