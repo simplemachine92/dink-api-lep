@@ -122,7 +122,7 @@ export const formatCurrency = (value) => {
 
 export const writeLog = async (logText) => {
     const projectRoot = path.dirname(process.argv[1]);
-    const fileName = `${new Date().toJSON().slice(0, 10)}.txt`;
+    const fileName = `${new Date().toJSON().slice(0, 10)}.json`;
     await appendFile(`${projectRoot}/logs/${fileName}`, `${logText}\n`);
 };
 
