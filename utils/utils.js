@@ -123,7 +123,7 @@ export const formatCurrency = (value) => {
 export const writeLog = async (logText) => {
     const projectRoot = path.dirname(process.argv[1]);
     const fileName = `${new Date().toJSON().slice(0, 10)}.txt`;
-    await appendFile(`${projectRoot}/logs/${fileName}`, logText);
+    await appendFile(`${projectRoot}/logs/${fileName}`, `${logText}\n`);
 };
 
 export const handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, message, imageData, isDeath = false) => {
