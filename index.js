@@ -1,11 +1,10 @@
 const LISTEN_HOST = process.env.LISTEN_HOST || '127.0.0.1';
 const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
 
-/**
- * @type {import('fastify').FastifyInstance} Instance of Fastify
- */
+import fastifyInstance from 'fastify';
+import multipartPlugin from '@fastify/multipart';
 
-const fastify = require('fastify')({
+const fastify = fastifyInstance({
     trustProxy: true,
     logger: {
         transport: {
@@ -21,9 +20,9 @@ const fastify = require('fastify')({
 
 fastify.addHook('onResponse', async (req, reply) => {
     const responseTime = `${reply.elapsedTime().toFixed('3')}ms`;
-    const statusCode = reply.raw.statusCode;
+    const statusCode = reply.statusCode;
     const userAgent = req.headers['user-agent'] ?? null;
-    const url = req.raw.url;
+    const url = req.url;
     if (statusCode >= 500) {
         req.log.error(`${statusCode} ${responseTime}`);
     } else if (statusCode >= 400) {
@@ -31,7 +30,7 @@ fastify.addHook('onResponse', async (req, reply) => {
     }
 });
 
-fastify.register(require('@fastify/multipart'), {
+fastify.register(multipartPlugin, {
     attachFieldsToBody: true,
     limits: {
         files: 1,
@@ -39,31 +38,15 @@ fastify.register(require('@fastify/multipart'), {
     }
 });
 
-fastify.post('/', {
-    handler: require('./handlers/dinkHandler.js')
-});
-
-fastify.post('/runelite', {
-    handler: require('./handlers/dinkHandler.js')
-});
-
-fastify.post('/webhook', {
-    handler: require('./handlers/dinkHandler.js')
-});
-
-fastify.post('/universal', {
-    handler: require('./handlers/dinkHandler.js')
-});
+import dinkRouteHandler from './handlers/dinkHandler.js';
 
 fastify.post('/dink', {
-    handler: require('./handlers/dinkHandler.js')
+    handler: dinkRouteHandler
 });
 
-fastify.get('/delete', {
+/* fastify.get('/delete', {
     handler: require('./handlers/delete.js')
-});
-
-fastify.all('*', (request, reply) => reply.status(404).send({ error: 'Route not found' }));
+}); */
 
 fastify.listen({ port: LISTEN_PORT, host: LISTEN_HOST }, (err) => {
     if (err) {

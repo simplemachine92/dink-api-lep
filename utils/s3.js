@@ -1,5 +1,6 @@
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
-const Config = require('../config.json');
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+import Config from '../config.json' with { type: 'json' };
 
 /**
  * @type { S3Client }
@@ -7,7 +8,7 @@ const Config = require('../config.json');
 
 let S3Instance = null;
 
-const initializeS3Client = () => {
+export const initializeS3Client = () => {
     if (Config.Options.Storage === 's3' && S3Instance instanceof S3Client === false) {
         S3Instance = new S3Client({
             region: Config.S3.Region,
@@ -20,7 +21,7 @@ const initializeS3Client = () => {
     }
 };
 
-const uploadFile = async (fileName, fileData) => {
+export const uploadFile = async (fileName, fileData) => {
     const putCommand = new PutObjectCommand({
         Bucket: Config.S3.Bucket,
         Key: `${fileName}.png`,
@@ -29,9 +30,4 @@ const uploadFile = async (fileName, fileData) => {
     });
 
     await S3Instance.send(putCommand);
-};
-
-module.exports = {
-    initializeS3Client,
-    uploadFile
 };

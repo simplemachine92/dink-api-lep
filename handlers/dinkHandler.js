@@ -1,6 +1,5 @@
-const utils = require('../utils/utils.js');
-
-const config = require('../config.json');
+import * as Utils from '../utils/utils.js';
+import Config from '../config.json' with { type: 'json' };
 
 const allowedUseragents = ['RuneLite/', 'HDOS/'];
 
@@ -13,7 +12,11 @@ function isValidUserAgent (userAgent) {
     return false;
 }
 
-module.exports = async (request, reply) => {
+/**
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
+const routeHandler = async (request, reply) => {
     if (!isValidUserAgent(request.headers['user-agent'])) {
         return reply.status(403).send('Invalid useragent');
     }
@@ -28,7 +31,7 @@ module.exports = async (request, reply) => {
 
     const { payload_json, file } = request.body;
 
-    request.log.info(`[DINK] - Incoming payload: -> ${payload_json.value}`);
+    await Utils.writeLog(payload_json.value);
 
     const twitchUser = request.query.twitch_username ?? null;
 
@@ -54,7 +57,7 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'CLUE': {
-            const clueType = utils.formatStringCase(extra.clueType);
+            const clueType = Utils.formatStringCase(extra.clueType);
             dinkMessage = `has completed a ${clueType} clue, making that ${extra.numberCompleted} in total!`;
             break;
         }
@@ -75,25 +78,25 @@ module.exports = async (request, reply) => {
         }
         case 'SPEEDRUN': {
             dinkMessage = extra?.isPersonalBest === true
-                ? `has completed a speedrun of ${extra.questName} with a new personal best of ${utils.parseDuration(extra.personalBest)}!`
-                : `has completed a speedrun of ${extra.questName} in ${utils.parseDuration(extra.currentTime)}!`;
+                ? `has completed a speedrun of ${extra.questName} with a new personal best of ${Utils.parseDuration(extra.personalBest)}!`
+                : `has completed a speedrun of ${extra.questName} in ${Utils.parseDuration(extra.currentTime)}!`;
             break;
         }
         case 'KILL_COUNT': {
             dinkMessage = extra.isPersonalBest === true
-                ? `has defeated ${extra.boss} with a new personal best time of ${utils.parseDuration(extra.time)} and a total completion count of ${extra.count}!`
+                ? `has defeated ${extra.boss} with a new personal best time of ${Utils.parseDuration(extra.time)} and a total completion count of ${extra.count}!`
                 : `has defeated ${extra.boss} with a total completion count of ${extra.count}!`;
             break;
         }
         case 'ACHIEVEMENT_DIARY': {
-            const diaryDifficulty = utils.formatStringCase(extra.difficulty);
+            const diaryDifficulty = Utils.formatStringCase(extra.difficulty);
             dinkMessage = `has completed the ${diaryDifficulty} ${extra.area} Achievement Diary, for a total of ${extra.total} diaries completed!`;
             break;
         }
         case 'COMBAT_ACHIEVEMENT': {
-            const achievementTier = utils.formatStringCase(extra.tier);
+            const achievementTier = Utils.formatStringCase(extra.tier);
             if (extra.justCompletedTier) {
-                const completedTier = utils.formatStringCase(extra.justCompletedTier);
+                const completedTier = Utils.formatStringCase(extra.justCompletedTier);
                 dinkMessage = `has unlocked the ${completedTier} tier of rewards by completing the task: ${extra.task} with ${extra.taskPoints} points!`;
             } else {
                 dinkMessage = `has completed the ${achievementTier} combat task: ${extra.task}, getting ${extra.taskPoints} points!`;
@@ -143,11 +146,11 @@ module.exports = async (request, reply) => {
         }
         case 'BARBARIAN_ASSAULT_GAMBLE': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= Config.DinkConfig.LootMinValue);
 
             if (filteredLoot.length > 0) {
                 for (const item of filteredLoot) {
-                    lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
+                    lootItems.push(`${item.quantity}x ${item.name} (${Utils.formatCurrency(item.priceEach * item.quantity)})`);
                 }
             }
 
@@ -156,14 +159,14 @@ module.exports = async (request, reply) => {
         }
         case 'LOOT': {
             const lootItems = [];
-            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= config.DinkConfig.LootMinValue);
+            const filteredLoot = extra.items.filter(i => i.priceEach * i.quantity >= Config.DinkConfig.LootMinValue);
 
             if (filteredLoot.length === 0) {
                 break;
             }
 
             for (const item of filteredLoot) {
-                lootItems.push(`${item.quantity}x ${item.name} (${utils.formatCurrency(item.priceEach * item.quantity)})`);
+                lootItems.push(`${item.quantity}x ${item.name} (${Utils.formatCurrency(item.priceEach * item.quantity)})`);
             }
 
             dinkMessage = `has looted: ${lootItems.join(', ')}`;
@@ -172,7 +175,7 @@ module.exports = async (request, reply) => {
         case 'PLAYER_KILL': {
             const victimValue = Object.values(extra.victimEquipment).reduce((a, b) => a + b);
 
-            if (victimValue < config.DinkConfig.LootMinValue) {
+            if (victimValue < Config.DinkConfig.LootMinValue) {
                 break;
             }
 
@@ -182,7 +185,7 @@ module.exports = async (request, reply) => {
         case 'DEATH': {
             // eslint-disable-next-line unicorn/prefer-ternary
             if (extra.isPvp === true) {
-                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${utils.formatCurrency(extra.valueLost)}!`}`;
+                dinkMessage = `has been PKed by ${extra.pker} and lost ${extra.valueLost === 0 ? 'nothing!' : `${Utils.formatCurrency(extra.valueLost)}!`}`;
             } else {
                 dinkMessage = 'has died!';
             }
@@ -205,7 +208,7 @@ module.exports = async (request, reply) => {
             break;
         }
         case 'LEAGUES_TASK': {
-            const taskDifficulty = utils.formatStringCase(extra.difficulty);
+            const taskDifficulty = Utils.formatStringCase(extra.difficulty);
             if (extra.earnedTrophy) {
                 dinkMessage = `has unlocked the ${extra.earnedTrophy} trophy by completing the ${taskDifficulty} task: ${extra.taskName}!`;
             } else {
@@ -229,8 +232,10 @@ module.exports = async (request, reply) => {
     }
 
     if (dinkMessage !== null) {
-        await utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, dinkMessage, image, (type === 'DEATH'));
+        await Utils.handleDinkMessage(playerName, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, dinkMessage, image, (type === 'DEATH'));
     }
 
     return reply.send('OK');
 };
+
+export default routeHandler;

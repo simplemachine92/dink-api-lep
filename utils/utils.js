@@ -1,17 +1,18 @@
-const Redis = require('ioredis');
-const Crypto = require('node:crypto');
-const fsp = require('node:fs/promises');
-const tinyDuration = require('tinyduration');
+import Redis from 'ioredis';
+import { writeFile, appendFile } from 'node:fs/promises';
+import path from 'node:path';
+import { parse as durationParse } from 'tinyduration';
+import { nanoid } from 'nanoid';
 
-const S3Client = require('./s3.js');
+import Config from '../config.json' with { type: 'json' };
+import * as S3Client from './s3.js';
+
 S3Client.initializeS3Client();
-
-const config = require('../config.json');
 
 const RedisPub = new Redis({ lazyConnect: true });
 
 const publishMessage = (msgData) => {
-    if (!config.Options.RedisEnabled) {
+    if (!Config.Options.RedisEnabled) {
         return;
     }
     RedisPub.publish('go-bot', JSON.stringify(msgData));
@@ -22,7 +23,7 @@ const checkTwitchName = (twitchUser, runescapeUser) => {
         return false;
     }
 
-    const nameData = config.NameMap?.[twitchUser.toLowerCase()];
+    const nameData = Config.NameMap?.[twitchUser.toLowerCase()];
 
     if (!nameData) {
         return false;
@@ -32,18 +33,18 @@ const checkTwitchName = (twitchUser, runescapeUser) => {
 };
 
 const sendExtraChannels = (twitchUser, message, isDeath) => {
-    const extraChannels = config.UserConfig?.[twitchUser.toLowerCase()];
+    const extraChannels = Config.UserConfig?.[twitchUser.toLowerCase()];
 
     if (extraChannels === undefined) {
         return null;
     }
 
     for (const channel of extraChannels.Channels) {
-        const customEmotes = extraChannels?.emotes?.[channel] ?? config.ChannelConfig?.[channel];
-        let customMessage = `${customEmotes?.DinkEmote ?? config.Default.DinkEmote} ${message}`;
+        const customEmotes = extraChannels?.emotes?.[channel] ?? Config.ChannelConfig?.[channel];
+        let customMessage = `${customEmotes?.DinkEmote ?? Config.Default.DinkEmote} ${message}`;
 
         if (isDeath === true) {
-            customMessage = `${customEmotes?.DeathEmote ?? config.Default.DeathEmote} ${message}`;
+            customMessage = `${customEmotes?.DeathEmote ?? Config.Default.DeathEmote} ${message}`;
         }
 
         sendTwitchMessage(channel, customMessage);
@@ -55,21 +56,21 @@ const writeImage = async (imageData, skipImage) => {
         return null;
     }
 
-    if (config.Options.Storage === '' || config.Options.Storage !== 'file' && config.Options.Storage !== 's3') {
+    if (Config.Options.Storage === '' || Config.Options.Storage !== 'file' && Config.Options.Storage !== 's3') {
         console.log('No Storage backend configured or invalid backend specified. Valid backends: [file, s3]');
         return null;
     }
 
-    if (config.Options.Storage === 'file' && config.Options.FilePath === '') {
+    if (Config.Options.Storage === 'file' && Config.Options.FilePath === '') {
         console.log('No filepath configured with file based storage');
         return null;
     }
 
-    const fileName = Crypto.randomBytes(20).toString('hex').slice(-12);
+    const fileName = nanoid(12);
 
-    switch (config.Options.Storage) {
+    switch (Config.Options.Storage) {
         case 'file': {
-            await fsp.writeFile(`${config.Options.FilePath}/${fileName}.png`, imageData);
+            await writeFile(`${Config.Options.FilePath}/${fileName}.png`, imageData);
             break;
         }
         case 's3': {
@@ -78,7 +79,7 @@ const writeImage = async (imageData, skipImage) => {
         }
     }
 
-    return `${config.Options.FileURLPrefix}/${fileName}.png`;
+    return `${Config.Options.FileURLPrefix}/${fileName}.png`;
 };
 
 const sendTwitchMessage = (channel, message) => {
@@ -95,13 +96,13 @@ const sendTwitchMessage = (channel, message) => {
     publishMessage(msgData);
 };
 
-module.exports.formatStringCase = (string) => {
+export const formatStringCase = (string) => {
     const str = string.toLowerCase();
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-module.exports.parseDuration = (duration) => {
-    const parsedDuration = tinyDuration.parse(duration);
+export const parseDuration = (duration) => {
+    const parsedDuration = durationParse(duration);
     const formattedDuration = Object.entries(parsedDuration)
         .map(i => `${i[1]}${i[0][0]}`)
         .join(', ');
@@ -109,7 +110,7 @@ module.exports.parseDuration = (duration) => {
     return formattedDuration;
 };
 
-module.exports.formatCurrency = (value) => {
+export const formatCurrency = (value) => {
     if (value >= 1e6) {
         return `${Math.floor(value / 1e4) / 100}M`;
     } else if (value >= 1e5) {
@@ -119,13 +120,19 @@ module.exports.formatCurrency = (value) => {
     }
 };
 
-module.exports.handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, message, imageData, isDeath = false) => {
+export const writeLog = async (logText) => {
+    const projectRoot = path.dirname(process.argv[1]);
+    const fileName = `${new Date().toJSON().slice(0, 10)}.txt`;
+    await appendFile(`${projectRoot}/logs/${fileName}`, logText);
+};
+
+export const handleDinkMessage = async (runescapeUser, seasonalWorld, twitchUser, skipDefaultChannel, skipImage, message, imageData, isDeath = false) => {
     const imageURL = await writeImage(imageData, skipImage);
 
     const validTwitchUser = checkTwitchName(twitchUser, runescapeUser);
     const identicalNames = Boolean(runescapeUser?.toLowerCase() === twitchUser?.toLowerCase());
 
-    const { DinkConfig: { SeasonalEmoji }, Default: { Channel, DinkEmote, DeathEmote } } = config;
+    const { DinkConfig: { SeasonalEmoji }, Default: { Channel, DinkEmote, DeathEmote } } = Config;
 
     const buildMessage = (message) => {
         // eslint-disable-next-line unicorn/prefer-ternary

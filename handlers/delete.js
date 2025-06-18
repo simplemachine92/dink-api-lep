@@ -1,8 +1,10 @@
-const config = require('../config.json');
-const fs = require('node:fs');
+import Config from '../config.json' with { type: 'json' };
+
+import { existsSync as fileExists } from 'node:fs';
+import { unlink as deleteFile } from 'node:fs/promises';
 
 module.exports = async (request, reply) => {
-    if (!config.Options.DeleteWhitelist.includes(request.ip)) {
+    if (!Config.Options.DeleteWhitelist.includes(request.ip)) {
         return reply.status(403).send('Invalid IP Address');
     }
 
@@ -12,11 +14,11 @@ module.exports = async (request, reply) => {
 
     const filePath = `/mnt/disk/share/runelite/${fileName}.png`;
 
-    if (!fs.existsSync(filePath)) {
+    if (!fileExists(filePath)) {
         return reply.status(400).send('Invalid Image');
     }
 
-    await fs.promises.unlink(filePath);
+    await deleteFile(filePath);
 
     return reply.send('OK');
 };
