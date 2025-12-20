@@ -2,6 +2,7 @@
     "Options": {
         "DeleteWhitelist": [],
         "RedisEnabled": true,
+        "RedisDSN": "localhost",
         "Storage": "file",
         "FilePath": "/opt/data/runelite",
         "FileURLPrefix": "https://dink.ivr.fi"

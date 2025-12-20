@@ -9,7 +9,7 @@ import * as S3Client from './s3.js';
 
 S3Client.initializeS3Client();
 
-const RedisPub = new Redis({ lazyConnect: true });
+const RedisPub = new Redis({ host: Config.Options.RedisDSN, lazyConnect: true });
 
 const publishMessage = (msgData) => {
     if (!Config.Options.RedisEnabled) {
