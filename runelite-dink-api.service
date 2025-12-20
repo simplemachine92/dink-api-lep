@@ -10,7 +10,6 @@ TimeoutStopSec=5
 Restart=always
 
 Environment=NODE_ENV=production
-Environment=NODE_OPTIONS="--require ./.pnp.cjs"
 
 [Install]
 WantedBy=default.target
