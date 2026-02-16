@@ -25,13 +25,19 @@ const routeHandler = async (request, reply) => {
         return reply.status(400).send('Empty POST body');
     }
 
-    if (!request.body.payload_json?.value) {
-        return reply.status(400).send('Invalid data in payload');
+    const contentType = request.headers['content-type'];
+    let dinkPayload;
+
+    if (contentType.startsWith('application/json;')) {
+        dinkPayload = { json: request.body, file: null };
+    } else if (contentType.startsWith('multipart/form-data;')) {
+        const parsedPayload = JSON.parse(request.body.payload_json.value);
+        dinkPayload = { json: parsedPayload, file: request.body.file };
+    } else {
+        return reply.status(400).send('Invalid content-type');
     }
 
-    const { payload_json, file } = request.body;
-
-    await Utils.writeLog(payload_json.value);
+    await Utils.writeLog(dinkPayload.json);
 
     const twitchUser = request.query.twitch_username ?? null;
 
@@ -39,15 +45,13 @@ const routeHandler = async (request, reply) => {
 
     const skipDefaultChannel = request.query?.skipDefaultChannel === 'true';
 
-    const parsedPayload = JSON.parse(payload_json.value);
-
-    if (!parsedPayload.type) {
+    if (!dinkPayload.json.type) {
         return reply.status(400).send('Missing type in payload!');
     }
 
-    const image = file ? await file.toBuffer() : null;
+    const image = dinkPayload.file ? await dinkPayload.file.toBuffer() : null;
 
-    const { type, extra, playerName, seasonalWorld } = parsedPayload;
+    const { type, extra, playerName, seasonalWorld } = dinkPayload.json;
 
     let dinkMessage = null;
     
