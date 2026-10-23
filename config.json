@@ -1,13 +1,44 @@
 {
-  "Port": 3000,
-  "Options": {
-    "Storage": "local",
-    "Twitch": true
-  },
-  "Twitch": {
-    "Channel": "",
-    "ClientID": "",
-    "ClientSecret": "",
-    "OAuthToken": ""
-  }
+    "Options": {
+        "DeleteWhitelist": [],
+        "RedisEnabled": false,
+        "RedisDSN": "localhost",
+        "Storage": "s3",
+        "FilePath": "/opt/data/runelite",
+        "FileURLPrefix": ""
+    },
+    "S3": {
+        "Region": "",
+        "Endpoint": "",
+        "Bucket": "",
+        "AccessKey": "",
+        "SecretKey": ""
+    },
+    "DinkConfig": {
+        "LootMinValue": 100000,
+        "SeasonalEmoji": "🎖️"
+    },
+    "Default": {
+        "Channel": "pajlada",
+        "DinkEmote": "pajaDink",
+        "DeathEmote": "pajaSad"
+    },
+    "NameMap": {
+        "twitch_name": [
+            "nowonder"
+        ]
+    },
+    "UserConfig": {
+        "twitch_name": {
+            "Channels": [
+                "nowonder"
+            ]
+        }
+    },
+    "ChannelConfig": {
+        "twitch_name": {
+            "DinkEmote": "",
+            "DeathEmote": ""
+        }
+    }
 }

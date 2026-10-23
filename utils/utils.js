@@ -79,7 +79,7 @@ const writeImage = async (imageData, skipImage) => {
         }
     }
 
-    return `${Config.Options.FileURLPrefix}/${fileName}.png`;
+    return `${process.env.FILE_URL_PREFIX || Config.Options.FileURLPrefix}/${fileName}.png`;
 };
 
 const sendTwitchMessage = (channel, message) => {

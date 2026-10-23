@@ -1,5 +1,5 @@
 const LISTEN_HOST = process.env.LISTEN_HOST || '0.0.0.0';
-const LISTEN_PORT = process.env.LISTEN_PORT || 3000;
+const LISTEN_PORT = Number(process.env.PORT || process.env.LISTEN_PORT || 3000);
 
 import fastifyInstance from 'fastify';
 import multipartPlugin from '@fastify/multipart';
