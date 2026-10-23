@@ -1,7 +1,7 @@
 {
     "Options": {
         "DeleteWhitelist": [],
-        "RedisEnabled": true,
+        "RedisEnabled": false,
         "RedisDSN": "localhost",
         "Storage": "file",
         "FilePath": "/opt/data/runelite",
@@ -24,11 +24,11 @@
         "DeathEmote": "pajaSad"
     },
     "NameMap": {
-        "twitch_name": [""]
+        "twitch_name": ["nowonder"]
     },
     "UserConfig": {
         "twitch_name": {
-            "Channels": [""]
+            "Channels": ["nowonder"]
         }
     },
     "ChannelConfig": {
