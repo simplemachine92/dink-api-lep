@@ -1,1 +1,13 @@
-{}
+{
+  "Port": 3000,
+  "Options": {
+    "Storage": "local",
+    "Twitch": true
+  },
+  "Twitch": {
+    "Channel": "",
+    "ClientID": "",
+    "ClientSecret": "",
+    "OAuthToken": ""
+  }
+}
